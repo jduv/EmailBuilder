@@ -4,10 +4,10 @@ Java Mail + Builder pattern
 EmailBuilder v1.0
 License: MIT
 
-SUMMRY
+SUMMERY
 ------
 
-Sending emails is a common programming task in enterprise computing. The Java mail implementation is a very good starting point for performing this task, but it's quite verbose and most times feels very procedural in nature. During a recent project (as of November 2012) I thought to myself: what if we hid all the procedural nastiness in a fluent API that's easy to understand? After a furious night of coding and learning, the EmailBuilder project/snippet was born. In essence, it's Joshua Boch's builder pattern sitting on top of the Java mail APIs. It's fluent, easy to understand, and handles the following types of authentication:
+Sending emails is a common programming task in enterprise computing. The Java mail implementation is a very good starting point for performing this task, but it's quite verbose and most times feels very procedural in nature. During a recent project (as of November 2012) I thought to myself: what if we hid all the procedural nastiness in a fluent API that's easy to understand? After a furious night of coding and learning, the EmailBuilder project/snippet was born. In essence, it's Joshua Boch's builder pattern sitting on top of the Java mail APIs. Through a session provider builder implementation it can handle the following types of authentication:
 
 - Username/Password
 - SSL Certificate
