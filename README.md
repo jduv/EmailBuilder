@@ -24,17 +24,57 @@ EXAMPLES:
 
 Send an email using unauthenticated security.
 ```java
+    SessionProvider session = SessionProvider.unauthenticated("username", "password");
 
+    EmailBody body = EmailBody.builder()
+            .content("This is my email body")
+            .build();
+
+    Email.session(session)
+            .from(new InternetAddress("from@myaddress.com"))
+            .to(new InternetAddress("target@theiraddress.com"))
+            .cc(new InternetAddress("cc@targetaddress.com"))
+            .bcc(new InternetAddress("supersecret@observer.com"))
+            .subject("Hello world")
+            .body(body)
+            .build()
+            .send();
 ```
 
 Send an email using TLS security.
 ```java
+	SessionProvider session = AuthenticatedSessionProvider.host("my.mail.host").tlsAuth("user", "pass");
 
+    EmailBody body = EmailBody.builder()
+            .content("This is my email body")
+            .build();
+
+    Email.session(session)
+            .from(new InternetAddress("from@myaddress.com"))
+            .to(new InternetAddress("target@theiraddress.com"))
+            .subject("Hello world")
+            .body(body)
+            .build()
+            .send();
 ```
 
 Send an email while defining some replacements.
 ```java
+    SessionProvider session = SessionProvider.unauthenticated("username", "password");
 
+    EmailBody body = EmailBody.builder()
+            .replace("$name$", "jduv")
+            .delimiter('$')
+            .content("Hello $name$!")
+            .build();
+
+    Email.session(session)
+            .from(new InternetAddress("from@myaddress.com"))
+            .to(new InternetAddress("target@theiraddress.com"))
+            .subject("Hello world")
+            .body(body)
+            .build()
+            .send();
 ```
 
 TODO:
