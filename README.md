@@ -24,7 +24,7 @@ EXAMPLES:
 
 Send an email using unauthenticated security.
 ```java
-    SessionProvider session = SessionProvider.unauthenticated();
+    SessionProvider session = SessionProvider.unauthenticated("my.mail.host");
 
     EmailBody body = EmailBody.builder()
             .content("This is my email body")
@@ -60,7 +60,7 @@ Send an email using TLS security.
 
 Send an email while defining some replacements.
 ```java
-    SessionProvider session = SessionProvider.unauthenticated();
+    SessionProvider session = SessionProvider.unauthenticated("my.mail.host");
 
     EmailBody body = EmailBody.builder()
             .replace("$name$", "jduv")
