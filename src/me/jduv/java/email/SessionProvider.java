@@ -15,7 +15,7 @@ public abstract class SessionProvider {
 
     /**
      * Initializes a new instance of the SessionProvider class.
-     * 
+     *
      * @param builder
      *            The builder.
      */
@@ -26,7 +26,7 @@ public abstract class SessionProvider {
 
     /**
      * Creates a new builder with the target host and a default port number.
-     * 
+     *
      * @param host
      *            The host.
      * @return An unauthenticated session provider.
@@ -37,7 +37,7 @@ public abstract class SessionProvider {
 
     /**
      * Creates a new builder with the target host and port number.
-     * 
+     *
      * @param host
      *            The host.
      * @param port
@@ -50,7 +50,7 @@ public abstract class SessionProvider {
 
     /**
      * Gets the host.
-     * 
+     *
      * @return The host.
      */
     public String getSmtpHost() {
@@ -59,7 +59,7 @@ public abstract class SessionProvider {
 
     /**
      * Gets the port.
-     * 
+     *
      * @return The port.
      */
     public int getPort() {
@@ -68,7 +68,7 @@ public abstract class SessionProvider {
 
     /**
      * Gets the session.
-     * 
+     *
      * @return The session.
      */
     public abstract Session getSession();
@@ -82,7 +82,7 @@ public abstract class SessionProvider {
 
         /**
          * Creates a default session provider builder.
-         * 
+         *
          * @param host
          *            The host.
          */
@@ -92,7 +92,7 @@ public abstract class SessionProvider {
 
         /**
          * Creates a default session provider builder.
-         * 
+         *
          * @param host
          *            The host.
          * @param port
@@ -122,7 +122,7 @@ public abstract class SessionProvider {
 
         /**
          * Creates an unauthenticated session provider.
-         * 
+         *
          * @return An unauthenticated session provider implementation.
          */
         public SessionProvider unauthenticated() {
