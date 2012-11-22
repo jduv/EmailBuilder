@@ -1,11 +1,8 @@
 Java Mail + Builder pattern
 ===========================
 
-EmailBuilder v1.0
-License: MIT
-
 SUMMARY
-------
+-------
 
 Sending emails is a common programming task in enterprise computing. The Java mail implementation is a very good starting point for performing this task, but it's quite verbose and most times feels very procedural in nature. During a recent project (as of November 2012) I thought to myself: what if we hid all the procedural nastiness in a fluent API that's easy to understand? After a furious night of coding and learning, the EmailBuilder project/snippet was born. In essence, it's Joshua Boch's builder pattern sitting on top of the Java mail APIs. Through a session provider builder implementation it can handle the following types of authentication:
 
@@ -24,57 +21,57 @@ EXAMPLES:
 
 Send an email using unauthenticated security.
 ```java
-    SessionProvider session = SessionProvider.unauthenticated("my.mail.host");
+SessionProvider session = SessionProvider.unauthenticated("my.mail.host");
 
-    EmailBody body = EmailBody.builder()
-            .content("This is my email body")
-            .build();
+EmailBody body = EmailBody.builder()
+        .content("This is my email body")
+        .build();
 
-    Email.session(session)
-            .from(new InternetAddress("from@myaddress.com"))
-            .to(new InternetAddress("target@theiraddress.com"))
-            .cc(new InternetAddress("cc@targetaddress.com"))
-            .bcc(new InternetAddress("supersecret@observer.com"))
-            .subject("Hello world")
-            .body(body)
-            .build()
-            .send();
+Email.session(session)
+        .from(new InternetAddress("from@myaddress.com"))
+        .to(new InternetAddress("target@theiraddress.com"))
+        .cc(new InternetAddress("cc@targetaddress.com"))
+        .bcc(new InternetAddress("supersecret@observer.com"))
+        .subject("Hello world")
+        .body(body)
+        .build()
+        .send();
 ```
 
 Send an email using TLS security.
 ```java
-	SessionProvider session = AuthenticatedSessionProvider.host("my.mail.host").tlsAuth("user", "pass");
+SessionProvider session = AuthenticatedSessionProvider.host("my.mail.host").tlsAuth("user", "pass");
 
-    EmailBody body = EmailBody.builder()
-            .content("This is my email body")
-            .build();
+EmailBody body = EmailBody.builder()
+        .content("This is my email body")
+        .build();
 
-    Email.session(session)
-            .from(new InternetAddress("from@myaddress.com"))
-            .to(new InternetAddress("target@theiraddress.com"))
-            .subject("Hello world")
-            .body(body)
-            .build()
-            .send();
+Email.session(session)
+        .from(new InternetAddress("from@myaddress.com"))
+        .to(new InternetAddress("target@theiraddress.com"))
+        .subject("Hello world")
+        .body(body)
+        .build()
+        .send();
 ```
 
 Send an email while defining some replacements.
 ```java
-    SessionProvider session = SessionProvider.unauthenticated("my.mail.host");
+SessionProvider session = SessionProvider.unauthenticated("my.mail.host");
 
-    EmailBody body = EmailBody.builder()
-            .replace("$name$", "jduv")
-            .delimiter('$')
-            .content("Hello $name$!")
-            .build();
+EmailBody body = EmailBody.builder()
+        .replace("$name$", "jduv")
+        .delimiter('$')
+        .content("Hello $name$!")
+        .build();
 
-    Email.session(session)
-            .from(new InternetAddress("from@myaddress.com"))
-            .to(new InternetAddress("target@theiraddress.com"))
-            .subject("Hello world")
-            .body(body)
-            .build()
-            .send();
+Email.session(session)
+        .from(new InternetAddress("from@myaddress.com"))
+        .to(new InternetAddress("target@theiraddress.com"))
+        .subject("Hello world")
+        .body(body)
+        .build()
+        .send();
 ```
 
 TODO:
