@@ -1,17 +1,30 @@
 package me.jduv.java.email;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import me.jduv.java.util.Strings;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.stringtemplate.v4.ST;
+
+import me.jduv.java.util.Strings;
 
 /**
  * The body of an email.
  */
 public final class EmailBody {
+	private final Multipart multipartMail;
     private final String content;
     private final String type;
 
@@ -24,6 +37,7 @@ public final class EmailBody {
     protected EmailBody(Builder builder) {
         this.content = builder.content;
         this.type = builder.type;
+        this.multipartMail = builder.multipartMail;
     }
 
     /**
@@ -63,6 +77,15 @@ public final class EmailBody {
     public String getType() {
         return this.type;
     }
+    
+    /**		
+     * Gets the MultipartMail.		
+     * 		
+     * @return The type.		
+     */		
+    public Multipart getMultipartMail() {		
+        return this.multipartMail;		
+    }
 
     /**
      * Handles building EmailBody objects.
@@ -72,6 +95,7 @@ public final class EmailBody {
         private String type;
         private Map<String, Object> replacements;
         private Character delimiter;
+        private Multipart multipartMail;
 
         /**
          * Initializes a new instance of the Builder class.
@@ -79,6 +103,7 @@ public final class EmailBody {
         public Builder() {
             this.replacements = new HashMap<String, Object>();
             this.type = "text/html";
+            multipartMail = new MimeMultipart();
         }
 
         @Override
@@ -104,6 +129,36 @@ public final class EmailBody {
             this.delimiter = delimiter;
             return this;
         }
+        
+        @Override		
+        public EmailBodyBuilder addFileAttachment(File file) {		
+        	try {		
+    			MimeBodyPart fileBodyPart = new MimeBodyPart();		
+    			DataSource source = new FileDataSource(file);		
+    			fileBodyPart.setDataHandler(new DataHandler(source));		
+    			fileBodyPart.setFileName(file.getName());		
+    			this.multipartMail.addBodyPart(fileBodyPart);		
+    		} catch (MessagingException e) {		
+    			throw new RuntimeException("ERROR ADDING FILE MAIL ATTACHMENT: " + file.getName(), e);		
+    		}		
+    		return this;		
+        }		
+        		
+        @Override		
+        public EmailBodyBuilder addFileAttachment(InputStream is, String fileName, String fileType) {		
+    		try {		
+    			MimeBodyPart fileBodyPart = new MimeBodyPart();		
+    			DataSource source = new ByteArrayDataSource(is, fileType);		
+    			fileBodyPart.setDataHandler(new DataHandler(source));		
+    			fileBodyPart.setFileName(fileName);		
+    			this.multipartMail.addBodyPart(fileBodyPart);		
+    		} catch (IOException ioe) {		
+    			throw new RuntimeException("ERROR ADDING FILE MAIL ATTACHMENT: " + fileName, ioe);		
+    		} catch (MessagingException e) {		
+    			throw new RuntimeException("ERROR ADDING FILE MAIL ATTACHMENT: " + fileName, e);		
+    		}		
+    		return this;		
+    	}
 
         @Override
         public EmailBody build() {

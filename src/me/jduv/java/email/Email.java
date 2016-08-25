@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 
 import me.jduv.java.util.Collections;
@@ -114,10 +116,13 @@ public final class Email {
      */
     public void send() throws MessagingException {
 
-        MimeMessage message = new MimeMessage(this.sessionProvider.getSession());
+        Message message = new MimeMessage(this.sessionProvider.getSession());
         message.setSubject(this.getSubject());
-        message.setContent(this.getBody().getContent(), this.getBody().getType());
-
+        
+        // Create the MultiPart to put the Text inside.
+        Multipart multipart = createMultiPart();
+        message.setContent(multipart);
+        
         // Set from address.
         message.setFrom(this.getFromAddress());
 
@@ -145,6 +150,18 @@ public final class Email {
         // Away with it.
         Transport.send(message);
     }
+
+	private Multipart createMultiPart() {
+		Multipart multipart = this.getBody().getMultipartMail();
+        try {
+			MimeBodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setContent(this.getBody().getContent(), this.getBody().getType());
+			multipart.addBodyPart(messageBodyPart);
+		} catch (MessagingException e) {
+			throw new RuntimeException("ERROR ADDING BODY: " + this.getBody().getContent(), e);
+		}
+		return multipart;
+	}
 
     /**
      * Builds email objects. I opted for an interface and a default implementation here
