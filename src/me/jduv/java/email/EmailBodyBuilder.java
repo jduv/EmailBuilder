@@ -1,5 +1,8 @@
 package me.jduv.java.email;
 
+import java.io.File;
+import java.io.InputStream;
+
 /**
  * Defines a contract for implementations that can create basic email bodies. This follows
  * the standard builder pattern described by Joshua Boch in the "Effective Java Reloaded"
@@ -46,6 +49,20 @@ public interface EmailBodyBuilder {
      */
     public EmailBodyBuilder delimiter(char delimiter);
 
+    /**
+     * Add a File Attachment to the Email.
+     * 
+     * @return A new EmailBody instance.
+     */
+	public EmailBodyBuilder addFileAttachment(File file);
+
+	/**
+     * Add a File Attachment to the Email.
+     * 
+     * @return A new EmailBody instance.
+     */
+	public EmailBodyBuilder addFileAttachment(InputStream is, String fileName, String fileType);
+    
     /**
      * Creates an EmailBody.
      * 
